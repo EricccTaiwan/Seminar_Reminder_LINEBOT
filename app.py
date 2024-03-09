@@ -47,26 +47,28 @@ def callback():
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # 接收到訊息
     received_message = event.message.text.lower()
     trigger_keywords = ["專題討論", "專討", "seminar"]
     # 如果收到訊息是「專題討論」，則回傳「繳交心得」
 
-    if "下次專討" in received_message :
-        for seminar_date_time in seminar_dates_times:
-            year, month, day, hour, minute = seminar_date_time
-            seminar_date = datetime(year, month, day, hour, minute)
-             # 如果專題討論的日期和時間晚於當前時間，則輸出該日期和時間
-            if seminar_date > current_time:
+    for seminar_date_time in seminar_dates_times:
+        year, month, day, hour, minute = seminar_date_time
+        seminar_date = datetime(year, month, day, hour, minute)
+        # 如果專題討論的日期和時間晚於當前時間，則輸出該日期和時間
+        while seminar_date > current_time:
+            if "下次專討" in received_message:
                 reply_message = f"下次專討 {seminar_date}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
 
-    # 如果收到訊息是「專題討論」，則回傳「繳交心得」
-    elif any(keyword in received_message for keyword in trigger_keywords):
-        reply_message = "繳交心得"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
+            # 如果收到訊息是「專題討論」，則回傳「繳交心得」
+            elif any(keyword in received_message for keyword in trigger_keywords):
+                reply_message = "繳交心得"
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
+                break
     
 
 import os
