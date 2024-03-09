@@ -59,7 +59,7 @@ def handle_message(event):
             seminar_date = datetime(year, month, day, hour, minute)
              # 如果專題討論的日期和時間晚於當前時間，則輸出該日期和時間
             if seminar_date > current_time:
-                reply_message = f"郭原彰::下次專討 {seminar_date}"
+                reply_message = f"下次專討 {seminar_date}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
 
