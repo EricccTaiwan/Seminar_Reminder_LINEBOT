@@ -47,7 +47,6 @@ def callback():
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
-@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # 接收到訊息
     received_message = event.message.text.lower()
