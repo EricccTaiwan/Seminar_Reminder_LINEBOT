@@ -15,7 +15,6 @@ app = Flask(__name__)
 current_time = datetime.now()
 seminar_dates_times = [
     (2024, 3, 16, 10, 25),
-    (2024, 3,  7, 13, 30),
     (2024, 3, 21, 13, 30),
     (2024, 4, 18, 13, 30),
     (2024, 4, 25, 13, 30),
@@ -57,15 +56,17 @@ def handle_message(event):
     for seminar_date_time in seminar_dates_times:
         year, month, day, hour, minute = seminar_date_time
         seminar_date = datetime(year, month, day, hour, minute)
-        # 如果專題討論的日期和時間晚於當前時間，則輸出該日期和時間
-        if seminar_date - timedelta(minutes=60) == current_time:
+        # 專討前一小時發送提醒
+        if seminar_date - timedelta(minutes=60) == current_time.replace(second=0, microsecond=0):
             reply_message = "今天有專討"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
+        # seminar = current 發送url
         elif seminar_date == current_time.replace(second=0, microsecond=0):
             line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
         while seminar_date > current_time:
+            # 如果收到訊息是「下次專討」，則回傳下次專討的日期和時間
             if "下次專討" in received_message:
-                reply_message = f"下次專討時間: {seminar_date}"
+                reply_message = f"下次專討時間: {seminar_date}, 當前時間: {current_time}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
 
