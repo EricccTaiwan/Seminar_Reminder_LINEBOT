@@ -18,14 +18,14 @@ app = Flask(__name__)
 
 # 專題討論的日期和時間
 seminar_dates_times = [
-    (2024, 3, 16, 10, 25),
-    (2024, 3, 21, 13, 30),
-    (2024, 4, 18, 13, 30),
-    (2024, 4, 25, 13, 30),
-    (2024, 5,  2, 13, 30),
-    (2024, 5, 16, 13, 30),
-    (2024, 5, 30, 13, 30),
-    (2024, 6,  6, 13, 30)
+    (2024, 3, 16, 2, 25),  #因為是UTC+8時區，所以專討時間是2:25
+    (2024, 3, 21, 5, 30),
+    (2024, 4, 18, 5, 30),
+    (2024, 4, 25, 5, 30),
+    (2024, 5,  2, 5, 30),
+    (2024, 5, 16, 5, 30),
+    (2024, 5, 30, 5, 30),
+    (2024, 6,  6, 5, 30)
 ]
 
 
@@ -62,7 +62,7 @@ def handle_message(event):
         seminar_date = datetime(year, month, day, hour, minute)
         seminar_date = pytz.timezone('UTC').localize(seminar_date).astimezone(pytz.timezone('Asia/Taipei'))
 
-        
+
         # 專討前一小時發送提醒
         if seminar_date - timedelta(minutes=60) == current_time.replace(second=0, microsecond=0):
             reply_message = "今天有專討"
