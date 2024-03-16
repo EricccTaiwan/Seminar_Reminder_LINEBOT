@@ -62,13 +62,8 @@ def handle_message(event):
         seminar_date = datetime(year, month, day, hour, minute)
         seminar_date = pytz.timezone('UTC').localize(seminar_date).astimezone(pytz.timezone('Asia/Taipei'))
 
-        # 專討前一小時發送提醒
-        if seminar_date - timedelta(minutes=60) == current_time.replace(second=0, microsecond=0):
-            reply_message = "今天有專討"
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
-
         # seminar = current 發送url
-        elif seminar_date == current_time.replace(microsecond=0):
+        if seminar_date == current_time:
             line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
         
         while seminar_date > current_time:
