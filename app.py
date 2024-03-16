@@ -66,14 +66,14 @@ def handle_message(event):
         while seminar_date > current_time:
             # 如果收到訊息是「下次專討」，則回傳下次專討的日期和時間
             if "下次專討" in received_message:
-                reply_message = f"下次專討時間: {seminar_date}"
+                reply_message = f"下次專討時間: {seminar_date}, 當前時間: {current_time}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
 
             # 如果收到訊息是「專題討論」，則回傳「繳交心得」
             elif any(keyword in received_message for keyword in trigger_keywords):
                 reply_message = "繳交心得"
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message)).
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
                 break
         
