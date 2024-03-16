@@ -63,7 +63,7 @@ def handle_message(event):
         seminar_date = pytz.timezone('UTC').localize(seminar_date).astimezone(pytz.timezone('Asia/Taipei'))
 
         # seminar = current 發送url
-        if seminar_date == current_time:
+        if seminar_date.replace(tzinfo=None) == current_time.replace(tzinfo=None):
             line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
         
         while seminar_date > current_time:
@@ -77,7 +77,7 @@ def handle_message(event):
             elif any(keyword in received_message for keyword in trigger_keywords):
                 reply_message = "繳交心得"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
-                line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
+                line_bot_api.push_message (event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
                 break
         
 
