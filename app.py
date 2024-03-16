@@ -60,6 +60,9 @@ def handle_message(event):
     for seminar_date_time in seminar_dates_times:
         year, month, day, hour, minute = seminar_date_time
         seminar_date = datetime(year, month, day, hour, minute)
+        seminar_date = pytz.timezone('UTC').localize(seminar_date).astimezone(pytz.timezone('Asia/Taipei'))
+
+        
         # 專討前一小時發送提醒
         if seminar_date - timedelta(minutes=60) == current_time.replace(second=0, microsecond=0):
             reply_message = "今天有專討"
