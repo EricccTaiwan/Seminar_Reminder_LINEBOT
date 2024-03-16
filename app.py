@@ -68,7 +68,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
 
         # seminar = current 發送url
-        elif seminar_date == current_time.replace(second=0, microsecond=0):
+        elif seminar_date == current_time.replace(microsecond=0):
             line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
         
         while seminar_date > current_time:
