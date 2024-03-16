@@ -8,11 +8,15 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 from datetime import datetime, timedelta
+import pytz
+
+# 將當前時間轉換為UTC+8時區
+current_time = datetime.now(pytz.timezone('Asia/Taipei'))
+
 
 app = Flask(__name__)
 
 # 專題討論的日期和時間
-current_time = datetime.now()
 seminar_dates_times = [
     (2024, 3, 16, 10, 25),
     (2024, 3, 21, 13, 30),
@@ -66,7 +70,7 @@ def handle_message(event):
         while seminar_date > current_time:
             # 如果收到訊息是「下次專討」，則回傳下次專討的日期和時間
             if "下次專討" in received_message:
-                reply_message = f"下次專討時間: {seminar_date}, 當前時間: {current_time}"
+                reply_message = f"下次專討時間: {seminar_date.strftime('%Y-%m-%d %H:%M')}, 當前時間: {current_time.strftime('%Y-%m-%d %H:%M')}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
 
