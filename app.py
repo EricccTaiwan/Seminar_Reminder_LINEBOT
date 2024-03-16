@@ -7,13 +7,14 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
 # 專題討論的日期和時間
 current_time = datetime.now()
 seminar_dates_times = [
+    (2024, 3, 16, 10, 25),
     (2024, 3,  7, 13, 30),
     (2024, 3, 21, 13, 30),
     (2024, 4, 18, 13, 30),
@@ -57,19 +58,24 @@ def handle_message(event):
         year, month, day, hour, minute = seminar_date_time
         seminar_date = datetime(year, month, day, hour, minute)
         # 如果專題討論的日期和時間晚於當前時間，則輸出該日期和時間
+        if seminar_date - timedelta(minutes=60) == current_time:
+            reply_message = "今天有專討"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
+        elif seminar_date == current_time.replace(second=0, microsecond=0):
+            line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
         while seminar_date > current_time:
             if "下次專討" in received_message:
                 reply_message = f"下次專討時間: {seminar_date}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
-                line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
                 break
 
             # 如果收到訊息是「專題討論」，則回傳「繳交心得」
             elif any(keyword in received_message for keyword in trigger_keywords):
                 reply_message = "繳交心得"
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message)).
+                line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
                 break
-    
+        
 
 import os
 if __name__ == "__main__":
