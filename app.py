@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 # 專題討論的日期和時間
 seminar_dates_times = [
-    (2024, 3, 16, 3, 5),  #因為是UTC+8時區，所以專討時間是2:25
+    #因為是UTC+8時區，所以專討時間是2:25
     (2024, 3, 21, 5, 30),
     (2024, 4, 18, 5, 30),
     (2024, 4, 25, 5, 30),
@@ -63,8 +63,8 @@ def handle_message(event):
         seminar_date = pytz.timezone('UTC').localize(seminar_date).astimezone(pytz.timezone('Asia/Taipei'))
 
         # seminar = current 發送url
-        if seminar_date.replace(tzinfo=None) == current_time.replace(tzinfo=None):
-            line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
+       #if seminar_date.replace(tzinfo=None) == current_time.replace(tzinfo=None):
+       #    line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
         
         while seminar_date > current_time:
             # 如果收到訊息是「下次專討」，則回傳下次專討的日期和時間
