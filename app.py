@@ -61,6 +61,7 @@ def handle_message(event):
             if "下次專討" in received_message:
                 reply_message = f"下次專討時間: {seminar_date}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
+                line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
                 break
 
             # 如果收到訊息是「專題討論」，則回傳「繳交心得」
