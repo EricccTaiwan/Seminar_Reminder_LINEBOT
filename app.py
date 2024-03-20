@@ -63,7 +63,7 @@ def handle_message(event):
         while seminar_date > current_time:
             # 如果收到訊息是「下次專討」，則回傳下次專討的日期和時間
             if "下次專討" in received_message:
-                reply_message = f"下次專討時間: {seminar_date}"
+                reply_message = f"下次專討 :{seminar_date.strftime('%Y-%m-%d')} 13:30~15:30"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
             # 如果收到訊息是「專題討論」，則回傳「繳交心得」
