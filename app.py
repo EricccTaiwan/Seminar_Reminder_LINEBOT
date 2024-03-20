@@ -59,20 +59,13 @@ def handle_message(event):
 
     for seminar_date_time in seminar_dates_times:
         year, month, day, hour, minute = seminar_date_time
-        seminar_date = datetime(year, month, day, hour, minute)
-        seminar_date = pytz.timezone('UTC').localize(seminar_date).astimezone(pytz.timezone('Asia/Taipei'))
-
-        # seminar = current 發送url
-        #if seminar_date.replace(tzinfo=None) == current_time.replace(tzinfo=None):
-        #    line_bot_api.push_message(event.source.user_id, TextSendMessage(text="https://moodle.ncku.edu.tw/course/view.php?id=38673"))
-        
+        seminar_date = datetime(year, month, day, hour, minute, 0, 0, pytz.timezone('Asia/Taipei')) 
         while seminar_date > current_time:
             # 如果收到訊息是「下次專討」，則回傳下次專討的日期和時間
             if "下次專討" in received_message:
                 reply_message = f"下次專討時間: {seminar_date)}"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
                 break
-
             # 如果收到訊息是「專題討論」，則回傳「繳交心得」
             elif any(keyword in received_message for keyword in trigger_keywords):
                 reply_message = "繳交心得"
