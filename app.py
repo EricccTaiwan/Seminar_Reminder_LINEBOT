@@ -30,9 +30,9 @@ seminar_dates_times = [
 
 
 # Channel Access Token
-line_bot_api = LineBotApi('U1W/9OQpFT6hzgJt1j5Db+As62WY8bU0vrZbXktTk0ANe5/3p8aZXlrPJPTakdG8goEf5fAwOBO20N9qJhu84+p9m03aHEHzZcB3qopKwPtEyNkJ19ia1vdRdZLxo2dic8/zo4vco3CxiM97Y9/JdAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('Your_Linbot_Ai')
 # Channel Secret
-handler = WebhookHandler('88b153db80219bd2b8cf93737c6c6ef4')
+handler = WebhookHandler('Heroku_webhook_handler')
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
